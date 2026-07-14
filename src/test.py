@@ -336,8 +336,31 @@ This is the same paragraph on a new line
                 "- This is a list\n- with items",
             ],
         )
-    
-    
+    def test_markdown_blocks_types_true(self):
+        header_block = "# Header 1"
+        code_block = "```\nprint(Hello World)```"
+        quote_block = ">I'm selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to\n>handle. But if you can't handle me at my worst, then you sure as hell don't deserve me at my best."
+        ulist_block = "- Pasta\n- Bacon\n- Egg\n- Cheese"
+        olist_block = "1. Write Code\n2. Write Tests\n3. Pray"
+
+        self.assertEqual(BlockType.HEADER, block_to_block_type(header_block))
+        self.assertEqual(BlockType.CODE, block_to_block_type(code_block))
+        self.assertEqual(BlockType.QUOTE, block_to_block_type(quote_block))
+        self.assertEqual(BlockType.ULIST, block_to_block_type(ulist_block))
+        self.assertEqual(BlockType.OLIST, block_to_block_type(olist_block))
+
+    def test_markdown_blocks_types_false(self):
+        header_block = "#Header 1"
+        code_block = "``\nprint(Hello World)```"
+        quote_block = ">I'm selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to\nhandle. But if you can't handle me at my worst, then you sure as hell don't deserve me at my best."
+        ulist_block = "- Pasta\n  2. Bacon - Egg- Cheese"
+        olist_block = "1. Write Code\n3. Write Tests\n3. Pray"
+
+        self.assertNotEqual(BlockType.HEADER, block_to_block_type(header_block))
+        self.assertNotEqual(BlockType.CODE, block_to_block_type(code_block))
+        self.assertNotEqual(BlockType.QUOTE, block_to_block_type(quote_block))
+        self.assertNotEqual(BlockType.ULIST, block_to_block_type(ulist_block))
+        self.assertNotEqual(BlockType.OLIST, block_to_block_type(olist_block))
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ from enum import Enum
 
 class BlockType(Enum):
     PARAGRAPH = "paragraph"
-    HEADING = "heading"
+    HEADER = "header"
     CODE = "code"
     QUOTE = "quote"
     ULIST = "unordered_list"
@@ -12,7 +12,7 @@ def block_to_block_type(block:str):
     if block.startswith("#"):
         start = block.split(" ",1)[0]
         if len(start) <= 6 and all(c=="#" for c in start):
-            return BlockType.HEADING
+            return BlockType.HEADER
 
     if block.startswith("```\n"):
         return BlockType.CODE
